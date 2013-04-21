@@ -1,0 +1,20 @@
+if craft.twitterCraft
+  .twitter-timeline.left
+    each tweet in craft.twitter.timeline
+      blockquote.cut.tweet
+        .vcard.author
+          a(href="https://twitter.com/#{tweet.screen_name}")
+            span.avatar
+              img.phto(src=tweet.profile_image_url)
+            span.fn
+              = tweet.name
+            span.screen-name @#{tweet.screen_name}
+        .entry= tweet['text']
+        .footer
+          .how-long-ago= tweet['created_at']
+          //- =Util.how_long_ago_was(tweet['created_at'])
+          a.view-details(href="https://twitter.com/#{tweet.screen_name}/statuses/#{tweet['id']}")
+            if tweet['in_reply_to_status_id']
+              view thread
+            else 
+              view details

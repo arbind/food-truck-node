@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  header#location
+    h1 
+    span.city(contenteditable=true)= location_hash.nickname
+    span  Food-Trucks
+    span .me
+  section.crafts
+    each craft in crafts
+      include ../craft/craft

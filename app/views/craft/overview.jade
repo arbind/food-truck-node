@@ -1,0 +1,21 @@
+.stats.right
+  include social-stats
+.bio.left
+  .cut
+    .description= craft.description
+    .footer
+      .url
+        a(href=craft.website)= craft.website
+  .social-buttons
+    //- https://developers.facebook.com/docs/reference/plugins/like/
+    //- https://dev.twitter.com/docs/follow-button
+    if craft.twitterCraft
+      iframe.tweet-follow-button.left(allowtransparency="true", frameborder=0, scrolling="no", src="//platform.twitter.com/widgets/follow_button.html#screen_name=#{craft.twitterCraft.screenName}&align=left&button=grey&show_count=true&show_screen_name=true&lang=en")
+    if craft.facebookCraft
+      iframe.facebook-like-button.right(allowTransparency="true", frameborder=0, scrolling="no", src="//www.facebook.com/plugins/like.php?href=#{craft.facebookCraft.href}&layout=button_count&width=90&show_faces=false&send=false&action=like&colorscheme=light&font&height=21&appId=146598735467471")
+
+  // .location
+  //   = "#{craft.location}"
+  //   .location-footer
+  //     = craft.geo_enabled ? "(Geo Enabled!)" : "(Not Geo Enabled)"
+  //     = craft.geo_point.to_json 

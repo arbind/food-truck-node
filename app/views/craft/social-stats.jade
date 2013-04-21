@@ -1,0 +1,50 @@
+.social-stats
+  .cut
+    ul
+      //- Yelp does not allow agregating or blending of their review count with other information  
+      if craft.yelpCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong= Util.short_human_number(craft.yelpCraft.review_count)
+          Yelp reviews
+
+      if craft.twitterCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong= Util.short_human_number(craft.twitterCraft.statuses_count)
+          tweets
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong= Util.short_human_number(craft.twitterCraft.followers_count)
+          followers
+      if craft.yelpCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong= craft.yelpCraft.rating
+          craft.yelpCraft rating
+      if craft.twitterCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong 1-5
+          craft.twitterCraft activity
+      if craft.facebookCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong 1-5
+          craft.facebookCraft activity
+      li
+        img.indicator{src:"/assets/transparent-indicator.png"}
+        strong 1-5
+        local distance
+        //- facebook like button already shows # of likes
+      if craft.facebookCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong= Util.short_human_number(craft.facebookCraft.likes)
+          FB likes
+
+      if craft.twitterCraft
+        li
+          img.indicator{src:"/assets/transparent-indicator.png"}
+          strong= craft.twitterCraft.friends_count
+          Twitter friends

@@ -1,0 +1,48 @@
+{ "name": "food-truck-me"
+, "author": "Arbind Thakur"
+, "description": "Find food trucks that you like"
+, "version": "0.0.1"
+, "repository": 
+  { "type": "git"
+  , "url": "git@github.com:arbind/food-truck.git"
+  }
+, "keywords": 
+  [ "food truck"
+  , "food"
+  ]
+, "private": true
+, "scripts": 
+  { "start": "node index"
+  , "test":  "cake spec"
+  }
+, "dependencies": 
+  { "coffee-script": "*"
+  , "express": "3.x"
+  , "express-expose": "*"
+  , "connect-assets": "*"
+  , "cookie-sessions": "*"
+  , "socket.io": "*"
+  , "nib": "*"
+  , "stylus": "*"
+  , "jade": "*"
+  , "json2": "*"
+  , "async": "*"
+  , "oauth": "*"
+  , "mongoskin": "*"
+  , "redis-url": "*"
+  }
+, "devDependencies":
+  { "mocha": "*"
+  , "chai": "*"
+  , "chai-http": "*"
+  , "chai-spies": "*"
+  , "sinon-chai": "*"
+  , "chai-factories":"*"
+  , "charlatan": "*"
+  , "phantom": "git://github.com/sebv/phantomjs-node.git"
+  }
+, "engines":
+  { "node": "0.8.x"
+  , "npm": "1.1.x"
+  }  
+}

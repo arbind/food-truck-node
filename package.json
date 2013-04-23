@@ -30,6 +30,7 @@
   , "oauth": "*"
   , "mongoskin": "*"
   , "redis-url": "*"
+  , "geocoder": "*"
   }
 , "devDependencies":
   { "mocha": "*"

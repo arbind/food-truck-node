@@ -10,7 +10,16 @@ exports.index = (req, res) ->
     coordinates:
       lat: 1
       lng: 2
-  crafts = CraftService.search { location }
-  locals = { location_hash, crafts }
-  res.expose locals, 'ui.data'
-  res.render 'home/index', locals
+
+  options = 
+    lat: -97.7430608
+    lng: 30.267153
+    page: 2
+    limit: 2
+    query: null
+    radius: 100
+
+  crafts = CraftService.search options, (err, crafts)->
+    locals = { location_hash, crafts }
+    res.expose locals, 'ui.data'
+    res.render 'home/index', locals

@@ -1,6 +1,7 @@
-if craft.twitterCraft
+if craft.twitter_craft
   .twitter-timeline.left
-    each tweet in craft.twitter.timeline
+    | twitter timeline
+    each tweet in craft.twitter_craft.timeline
       blockquote.cut.tweet
         .vcard.author
           a(href="https://twitter.com/#{tweet.screen_name}")

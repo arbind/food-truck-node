@@ -1,6 +1,7 @@
-if craft.yelpCraft
+if craft.yelp_craft
   .yelp-reviews.right
-    each review in craft.yelpCraft.reviews
+    | yelp reviews
+    each review in craft.yelp_craft.reviews
       user = review['user']
       blockquote.cut.yelp-review
         .vcard.author
@@ -14,11 +15,11 @@ if craft.yelpCraft
             a.yelp-follow-button(href="http://www.yelp.com/following_user/add?dst_user_id=#{user['id']}&previous_url=#{request.url}")
               i
               span.label
-                Follow
+                | Follow
         .entry
           = review['excerpt']
         .footer
           .how-long-ago= review['time_created']
           //- = Util.how_long_ago_was(Time.at(review['time_created']))
-          a.view-details(href="http://www.yelp.com/biz/#{yelp.yelp_id}#hrid:#{review['id']}")
+          a.view-details(href="http://www.yelp.com/biz/#{craft.yelp_craft.yelp_id}#hrid:#{review['id']}")
             read more

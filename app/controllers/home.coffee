@@ -1,7 +1,7 @@
-exports.index = (req, res) ->
-  location = req.query.location ? req.params.location ? 'Santa Monica'
-  console.log 'query', req.query
-  console.log 'params', req.params
+exports.index = (request, response) ->
+  location = request.query.location ? request.params.location ? 'Santa Monica'
+  console.log 'query', request.query
+  console.log 'params', request.params
 
   location_hash = 
     nickname: location
@@ -11,7 +11,7 @@ exports.index = (req, res) ->
       lat: 1
       lng: 2
 
-  options =
+  mumbo_jumbo =
     place: 'Austin, tx' 
     xlat: -97.7430608
     xlng: 30.267153
@@ -20,7 +20,8 @@ exports.index = (req, res) ->
     query: null
     radius: 100
 
-  crafts = CraftService.localSearch options, (err, crafts)->
+  crafts = HaloHaloService.localSearch mumbo_jumbo, (err, crafts)->
     locals = { location_hash, crafts }
-    res.expose locals, 'ui.data'
-    res.render 'home/index', locals
+    response.expose locals, 'ui.data'
+    locals.request = request
+    response.render 'home/index', locals

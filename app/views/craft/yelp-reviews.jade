@@ -1,6 +1,5 @@
-if craft.yelp_craft
+if craft.yelp_craft && craft.yelp_craft.reviews
   .yelp-reviews.right
-    | yelp reviews
     each review in craft.yelp_craft.reviews
       user = review['user']
       blockquote.cut.yelp-review

@@ -1,6 +1,5 @@
-if craft.twitter_craft
+if craft.twitter_craft &&  craft.twitter_craft.timeline
   .twitter-timeline.left
-    | twitter timeline
     each tweet in craft.twitter_craft.timeline
       blockquote.cut.tweet
         .vcard.author

@@ -15,10 +15,7 @@ module.exports = global.app = express()
 
 rootDir = (path.normalize __dirname + '/..')
 
-# sessionStore = new express.session.MemoryStore;
-# app.use express.cookieParser()
-# app.use express.cookieParser('your secret here')
-# app.use(express.session({ secret: 'foodtrucko', store: sessionStore }));
+sessionStore = new express.session.MemoryStore;
 
 assetsPipeline = connectAssets src: 'app/assets'
 css.root = 'stylesheets'
@@ -29,6 +26,8 @@ app.configure ->
   app.set 'port', process.env.PORT || process.env.VMC_APP_PORT || 8888
   app.set 'views', (rootDir + '/app/views')
   app.set 'view engine', 'jade'
+  app.use express.cookieParser(process.env.COOKIE_SECRET)
+  app.use(express.session({ key: 'sid', secret: (process.env.SESSION_SECRET || 'secret-session'), store: sessionStore }));
   app.use express.favicon()
   app.use express.logger('dev')
   app.use express.bodyParser()

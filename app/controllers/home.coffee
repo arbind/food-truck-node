@@ -1,7 +1,5 @@
 exports.index = (request, response) ->
   location = request.query.location ? request.params.location ? 'Santa Monica'
-  console.log 'query', request.query
-  console.log 'params', request.params
 
   location_hash = 
     nickname: location
@@ -12,6 +10,7 @@ exports.index = (request, response) ->
       lng: 2
 
   mumbo_jumbo =
+    sessionId: request.sessionID
     place: 'Austin, tx' 
     xlat: -97.7430608
     xlng: 30.267153

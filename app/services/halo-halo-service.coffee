@@ -13,8 +13,8 @@ cacheConfig =
   url: process.env.WEB_CRAFT_YELP_REDIS_URL || process.env.REDISTOGO_URL || 'redis://127.0.0.1:6379'
   dbNumber: process.env.WEB_CRAFT_YELP_REDIS_DB_NUMBER || 1
   prefix: 'wy.'
-  bizTTL: 5 # 5*60*60     # 5hrs = 5*60s*60m
-  sessionTTL: 5 #1*60*60  # 1hr  = 1*60s*60m
+  bizTTL: 48*60*60     # 5hrs = 5*60s*60m
+  sessionTTL: 1*60*60  # 1hr  = 1*60s*60m
 
 adaptBiz = (biz)-> 
   return biz unless biz?
@@ -43,7 +43,7 @@ class HaloHaloService
       fetchChildWebCrafts = (craft, webCraftCallback)->
         childWebCrafts = 
           fetchYelpCraft: (yelpCallback)->
-            webCraftYelpService.biz craft.yelp_craft.web_craft_id, yelpCallback
+            webCraftYelpService.biz craft.yelp_craft.web_craft_id, mumbo_jumbo.sessionId, yelpCallback
 
           fetchTwitterCraft: (twitterCallback)->
             craft.twitter_craft.timeline = TweetStreamService.timeline craft.twitter_craft.web_craft_id

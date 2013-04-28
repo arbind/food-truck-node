@@ -31,6 +31,7 @@
   , "mongoskin": "*"
   , "redis-url": "*"
   , "geocoder": "*"
+  , "web-craft-yelp-service": "git+https://15a003963165165d6af014a824729f77e048c331:x-oauth-basic@github.com/arbind/web-craft-yelp-service.git"
   }
 , "devDependencies":
   { "mocha": "*"

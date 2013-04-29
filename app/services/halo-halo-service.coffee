@@ -1,6 +1,6 @@
 async = require 'async'
+YelpCraftService = require 'web-craft-yelp-service'
 
-WebCraftYelpService = require 'web-craft-yelp-service'
 yelpOAuth =
   wsid: process.env.YELP_WSID
   consumer_key: process.env.YELP_CONSUMER_KEY
@@ -32,7 +32,7 @@ serviceSettings =
   adaptBiz: adaptBiz
   cacheConfig: cacheConfig
 
-webCraftYelpService = WebCraftYelpService.configure yelpOAuth, serviceSettings, (err, service)->
+yelpCraftService = YelpCraftService.configure yelpOAuth, serviceSettings, (err, service)->
   console.log 'WebCraft Yelp Service Connected'
 
 class HaloHaloService
@@ -43,7 +43,7 @@ class HaloHaloService
       fetchChildWebCrafts = (craft, webCraftCallback)->
         childWebCrafts = 
           fetchYelpCraft: (yelpCallback)->
-            webCraftYelpService.biz craft.yelp_craft.web_craft_id, mumbo_jumbo.sessionId, yelpCallback
+            yelpCraftService.fetch craft.yelp_craft.web_craft_id, mumbo_jumbo.sessionId, yelpCallback
 
           fetchTwitterCraft: (twitterCallback)->
             craft.twitter_craft.timeline = TweetStreamService.timeline craft.twitter_craft.web_craft_id

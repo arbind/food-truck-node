@@ -20,5 +20,6 @@ if craft.yelp_craft && craft.yelp_craft.reviews
         .footer
           .how-long-ago= review['time_created']
           //- = Util.how_long_ago_was(Time.at(review['time_created']))
-          a.view-details(href="http://www.yelp.com/biz/#{craft.yelp_craft.yelp_id}#hrid:#{review['id']}")
+          a.view-details(target='_blank', href="http://www.yelp.com/biz/#{craft.yelp_craft.web_craft_id}#hrid:#{review['id']}")
+          a.view-details(target='_blank', href="http://www.yelp.com/biz/#{craft.yelp_craft.web_craft_id}#hrid:#{review['id']}")
             read more

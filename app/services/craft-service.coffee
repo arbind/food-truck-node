@@ -2,7 +2,7 @@ dbURL = process.env.CRAFT_SERVICE_MONGO_URL || "localhost:27017/craft_service_de
 
 class CraftService
   @db: ->
-    @mongoDB ?= (require 'mongoskin').db dbURL
+    @mongoDB ?= (require 'mongoskin').db dbURL, {safe:true}
 
   @dbCrafts: ->
     @db().collection 'crafts'
@@ -19,7 +19,7 @@ class CraftService
       radius ?= 100 # in miles
       radius = 100 if radius < 0
       q =
-        coordinates: 
+        coordinates:
           "$nearSphere": geoCoordinates
           "$maxDistance": radius / 3959
       cursor = CraftService.dbCrafts().find(q)

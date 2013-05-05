@@ -25,6 +25,7 @@ adaptBiz = (biz)->
   rating: biz.rating
   review_count: biz.review_count
   reviews: biz.reviews
+  rating_image_url: biz.rating_image_url
 
 serviceSettings =
   debug: false

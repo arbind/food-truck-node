@@ -3,9 +3,17 @@ extends ../layout
 block content
   header#location
     h1 
-    span.city(contenteditable=true)= location_hash.nickname
-    span  Food-Trucks
-    span .me
+      span.city(contenteditable=true)= location_hash.nickname
+      span  Food-Trucks
+      span .me
+      span.right
+        if user
+          span.user= user.profile.username
+          a(href='/logout') logout
+        else
+          a(href='/oauth/twitter') sign in 
+
+
   section.crafts
     each craft in crafts
       include ../craft/craft

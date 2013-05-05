@@ -1,4 +1,5 @@
 exports.index = (request, response) ->
+  user = request.user
   location = request.query.location ? request.params.location ? 'Santa Monica'
 
   location_hash = 
@@ -20,7 +21,7 @@ exports.index = (request, response) ->
     radius: 100
 
   crafts = HaloHaloService.localSearch mumbo_jumbo, (err, crafts)->
-    locals = { location_hash, crafts }
-    response.expose locals, 'ui.data'
-    locals.request = request
+    clientData = { location_hash, crafts }
+    response.expose clientData, 'ui.data'
+    locals = { user, location_hash, crafts, request}
     response.render 'home/index', locals

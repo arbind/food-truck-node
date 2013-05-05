@@ -1,6 +1,6 @@
 # configure an express app: code structure and environment (test, development, production)
 
-global.appName = 'BlankNodeApp' # appName follows variable naming conventions (no spaces, etc) 
+global.appName = 'FoodTruck' # appName follows variable naming conventions (no spaces, etc) 
 
 global.node_env = process.env.NODE_ENV || global.localEnvironment || 'test'
 console.log "#{appName} running in  #{node_env} environment"
@@ -10,8 +10,23 @@ express       = (require 'express')
 expose        = (require 'express-expose')
 connectAssets = (require 'connect-assets')
 
+passport      = (require 'passport')
+TwitterStrategy = require('passport-twitter').Strategy
+
 # export the app, and make it available globally
 module.exports = global.app = express()
+
+app.expose { } # ensure expose javascript is available
+
+app.use (request, response, next)->  # redirect to www if nake domain is requested
+  if 0 is request.subdomains.length
+    [host, port] = request.headers.host.split ':'
+    port ?= 80
+    wwwURL = "#{request.protocol}://www.#{host}:#{port}"
+    console.log 'issueing redirect from: ', request.headers.host, ' to ', wwwURL
+    response.redirect wwwURL
+  else
+    next()
 
 rootDir = (path.normalize __dirname + '/..')
 
@@ -21,13 +36,77 @@ assetsPipeline = connectAssets src: 'app/assets'
 css.root = 'stylesheets'
 js.root = 'javascripts'
 
-console.log rootDir
+passport.serializeUser (user, done)-> done null, user._id
+passport.deserializeUser (id, done)-> UserService.findById id, done
+
+twitterConsumer = 
+  consumerKey: process.env.TWITTER_CONSUMER_KEY
+  consumerSecret: process.env.TWITTER_CONSUMER_SECRET
+  callbackURL: process.env.TWITTER_CALLBACK_URL || "http://127.0.0.1:3000/auth/twitter/callback"
+
+twitterSudoConsumer = 
+  consumerKey: process.env.TWITTER_CONSUMER_KEY
+  consumerSecret: process.env.TWITTER_CONSUMER_SECRET
+  callbackURL: process.env.TWITTER_SUDO_CALLBACK_URL || "http://127.0.0.1:3000/auth/sudo/callback"
+
+# twitterStreamerConsumer = 
+#   consumerKey: process.env.TWITTER_CONSUMER_KEY
+#   consumerSecret: process.env.TWITTER_CONSUMER_SECRET
+#   callbackURL: process.env.TWITTER_STREAMER_CALLBACK_URL || "http://127.0.0.1:3000/auth/streamer/callback"
+
+presenceFromTwitter = (profile)->
+  {
+    provider: 'twitter'
+    providerId: "#{profile.id}"
+    username: profile.username
+    avatar: profile._json.profile_image_url
+    followersCount: profile._json.followers_count
+    friendsCount: profile._json.friends_count
+    statusesCount: profile._json.statuses_count
+    # name: profile.displayName
+    # displayLocation: profile.location
+    # timeZone: profile._json.time_zone
+    # providerAccountCreatedAt: profile._json.created_at
+  }
+
+twitterSignIn = (token, tokenSecret, profile, done)->
+  socialPresence = presenceFromTwitter(profile)
+  accessToken = { token, tokenSecret }
+  UserService.signIn accessToken, socialPresence, done
+
+sudoSignIn = (token, tokenSecret, profile, done)->
+  socialPresence = presenceFromTwitter(profile)
+  accessToken = { token, tokenSecret }
+  UserService.signInForSudo accessToken, socialPresence, done
+
+# streamerSignIn = (token, tokenSecret, profile, done)->
+#   socialPresence = presenceFromTwitter(profile)
+#   console.log 'streamer sign in: ', socialPresence
+#   accessToken = { token, tokenSecret }
+#   UserService.signInForStreamer accessToken, socialPresence, (err, streamer)->
+#     console.log "streamer signed in: ", streamer
+#     done err, streamer
+
+twitterStrategy =  new TwitterStrategy twitterConsumer, twitterSignIn
+
+sudoStrategy =  new TwitterStrategy twitterSudoConsumer, sudoSignIn
+sudoStrategy.name = 'sudo'
+
+# tweetStreamerStrategy =  new TwitterStrategy twitterStreamerConsumer, tweetStreamerSignIn
+# tweetStreamerStrategy.name = 'tweet-streamer'
+
+passport.use twitterStrategy
+passport.use sudoStrategy
+# passport.use tweetStreamerStrategy
+
 app.configure ->
   app.set 'port', process.env.PORT || process.env.VMC_APP_PORT || 8888
   app.set 'views', (rootDir + '/app/views')
   app.set 'view engine', 'jade'
   app.use express.cookieParser(process.env.COOKIE_SECRET)
-  app.use(express.session({ key: 'sid', secret: (process.env.SESSION_SECRET || 'secret-session'), store: sessionStore }));
+  app.use express.session({ key: 'sid', secret: (process.env.SESSION_SECRET || 'secret-session'), store: sessionStore })
+  app.use passport.initialize()
+  app.use passport.session()
   app.use express.favicon()
   app.use express.logger('dev')
   app.use express.bodyParser()
@@ -95,13 +174,12 @@ global.redisProductionDB = 0
 
 global.mongoURL = null
 
-
 # load runtime environment
 require "./environments/#{node_env}"
 
 # connect to mondoDB
-if mongoURL
-  global.mongoDB = (require 'mongoskin').db mongoURL
+# if mongoURL
+#   global.mongoDB = (require 'mongoskin').db mongoURL, { safe: false }
   # +++ create database if it does not exists?
 
 # connect to redis

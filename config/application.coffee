@@ -71,36 +71,32 @@ presenceFromTwitter = (profile)->
 
 twitterSignIn = (token, tokenSecret, profile, done)->
   socialPresence = presenceFromTwitter(profile)
-  console.log 'twitter sign in: ', socialPresence
   accessToken = { token, tokenSecret }
   UserService.signIn accessToken, socialPresence, done
 
-# sudoSignIn = (token, tokenSecret, profile, done)->
-#   socialPresence = presenceFromTwitter(profile)
-#   console.log 'sudo sign in: ', socialPresence
-#   accessToken = { token, tokenSecret }
-#   UserService.signInForSudo accessToken, socialPresence, (err, sudo)->
-#     consol.log "sudo Signed in: ", sudo
-#     done err, sudo
+sudoSignIn = (token, tokenSecret, profile, done)->
+  socialPresence = presenceFromTwitter(profile)
+  accessToken = { token, tokenSecret }
+  UserService.signInForSudo accessToken, socialPresence, done
 
 # streamerSignIn = (token, tokenSecret, profile, done)->
 #   socialPresence = presenceFromTwitter(profile)
 #   console.log 'streamer sign in: ', socialPresence
 #   accessToken = { token, tokenSecret }
 #   UserService.signInForStreamer accessToken, socialPresence, (err, streamer)->
-#     consol.log "streamer signed in: ", streamer
+#     console.log "streamer signed in: ", streamer
 #     done err, streamer
 
 twitterStrategy =  new TwitterStrategy twitterConsumer, twitterSignIn
 
-# sudoStrategy =  new TwitterStrategy twitterSudoConsumer, sudoSignIn
-# sudoStrategy.name = 'sudo'
+sudoStrategy =  new TwitterStrategy twitterSudoConsumer, sudoSignIn
+sudoStrategy.name = 'sudo'
 
 # tweetStreamerStrategy =  new TwitterStrategy twitterStreamerConsumer, tweetStreamerSignIn
 # tweetStreamerStrategy.name = 'tweet-streamer'
 
 passport.use twitterStrategy
-# passport.use sudoStrategy
+passport.use sudoStrategy
 # passport.use tweetStreamerStrategy
 
 app.configure ->
@@ -182,8 +178,8 @@ global.mongoURL = null
 require "./environments/#{node_env}"
 
 # connect to mondoDB
-if mongoURL
-  global.mongoDB = (require 'mongoskin').db mongoURL
+# if mongoURL
+#   global.mongoDB = (require 'mongoskin').db mongoURL, { safe: false }
   # +++ create database if it does not exists?
 
 # connect to redis

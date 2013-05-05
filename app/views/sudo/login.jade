@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  header#location
+    h1 SUDO Food-Trucks.me
+  form(action='/sudo/authenticate', method='POST')
+    input(type='text', name='username')
+    input(type='password', name='password')
+    input(type='submit')

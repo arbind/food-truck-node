@@ -1,5 +1,4 @@
 exports.index = (request, response) ->
-  console.log 'user: ', request.user
   user = request.user
   location = request.query.location ? request.params.location ? 'Santa Monica'
 

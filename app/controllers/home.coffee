@@ -1,6 +1,6 @@
 exports.index = (request, response) ->
   user = request.user
-  location = request.query.location ? request.params.location ? 'Santa Monica'
+  location = request.query.location ? request.params.location ? 'Austin, TX'
 
   location_hash = 
     nickname: location
@@ -12,11 +12,11 @@ exports.index = (request, response) ->
 
   mumbo_jumbo =
     sessionId: request.sessionID
-    place: 'Austin, tx' 
-    xlat: -97.7430608
-    xlng: 30.267153
+    place: location
+    # xlat: -97.7430608
+    # xlng: 30.267153
     page: 1
-    limit: 2
+    limit: 20
     query: null
     radius: 100
 

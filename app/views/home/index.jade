@@ -3,7 +3,7 @@ extends ../layout
 block content
   header#location
     h1 
-      span.city(contenteditable=true)= location_hash.nickname
+      span.city= location_hash.nickname
       span  Food-Trucks
       span .me
       span.right
@@ -12,7 +12,9 @@ block content
           a(href='/logout') logout
         else
           a(href='/oauth/twitter') sign in 
-
+  #query-bar
+    .location
+      input(name=location, value=location_hash.nickname)
 
   section.crafts
     each craft in crafts

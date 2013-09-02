@@ -5,13 +5,12 @@
 
 class FoodTruck.Code.ClientApp
   views: 
-    '#location': (el)->
-      new FoodTruck.Code.HiLocationBar { el }
+    '#query-bar .location': (el)->
+      new FoodTruck.Code.HiQueryBarLocation {el}
 
   constructor: ->
-    FoodTruck.models.location = new Backbone.Model window.ui.data?.location_hash 
-
-    @connectSocket()
+    FoodTruck.models.location = new Backbone.Model window.ui.data?.location_hash
+    # @connectSocket()
     @bindViews()
 
   bindViews: => materializeView el for el, materializeView of @views when $(el).exists()

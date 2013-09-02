@@ -44,9 +44,11 @@ class HaloHaloService
       fetchChildWebCrafts = (craft, webCraftCallback)->
         childWebCrafts = 
           fetchYelpCraft: (yelpCallback)->
+            return yelpCallback(null, null) unless craft.yelp_craft?
             yelpCraftService.fetch craft.yelp_craft.web_craft_id, mumbo_jumbo.sessionId, yelpCallback
 
           fetchTwitterCraft: (twitterCallback)->
+            return twitterCallback(null, null) unless craft.twitter_craft?
             craft.twitter_craft.timeline = TweetStreamService.timeline craft.twitter_craft.web_craft_id
             twitterCallback null, craft.twitter_craft
 

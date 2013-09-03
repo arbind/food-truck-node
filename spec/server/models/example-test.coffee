@@ -5,5 +5,6 @@ describe 'Models', ->
     done()
 
   it 'can test a model', (done) =>
-    (expect 1).to.be.ok
+    craft = chai.create 'craft'
+    (expect craft.rank).to.eq 5
     done()

@@ -18,7 +18,9 @@ defaultSpecTimeout = 10 # ms
 
 task 'spec',              -> spawnMocha path: 'spec'
 
-task 'spec:features',     -> spawnMocha path: 'spec/features'
+task 'spec:assets',       -> spawnMocha path: 'spec/client/assets'
+
+task 'spec:features',     -> spawnMocha path: 'spec/client/features'
 
 task 'spec:server',       -> spawnMocha path: 'spec/server'
 

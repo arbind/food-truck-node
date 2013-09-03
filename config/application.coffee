@@ -19,8 +19,9 @@ module.exports = global.app = express()
 app.expose { } # ensure expose javascript is available
 
 app.use (request, response, next)->  # redirect to www if nake domain is requested
-  if 0 is request.subdomains.length
-    [host, port] = request.headers.host.split ':'
+  [host, port] = request.headers.host.split ':'
+  host = host.toLowerCase()
+  if 0 is request.subdomains.length and 'localhost' isnt host
     port ?= 80
     wwwURL = "#{request.protocol}://www.#{host}:#{port}"
     console.log 'issueing redirect from: ', request.headers.host, ' to ', wwwURL

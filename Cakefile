@@ -18,7 +18,7 @@ defaultSpecTimeout = 2000 # ms
 
 task 'spec',              -> spawnMocha path: 'spec'
 
-task 'spec:client',       -> spawnMocha path: 'spec/client'
+task 'spec:features',     -> spawnMocha path: 'spec/features', timeout: 5000
 
 task 'spec:server',       -> spawnMocha path: 'spec/server'
 
@@ -26,7 +26,7 @@ task 'spec:models',       -> spawnMocha path: 'spec/server/models'
 
 task 'spec:services',     -> spawnMocha path: 'spec/server/services'
 
-task 'spec:controllers',  -> spawnMocha path: 'spec/server/controllers'
+task 'spec:requests',     -> spawnMocha path: 'spec/server/requests'
 
 task 'spec:watch', -> spawnMocha path: 'spec', format: 'min', watch: true
 

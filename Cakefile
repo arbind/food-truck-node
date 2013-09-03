@@ -4,7 +4,7 @@ fs = require 'fs'
 
 
 defaultReportFormat = 'spec'
-defaultSpecTimeout = 2000 # ms
+defaultSpecTimeout = 3000 # ms
 
 
 # task 'spec:watch', 'Run the specs whenever the code changes', ->
@@ -18,7 +18,7 @@ defaultSpecTimeout = 2000 # ms
 
 task 'spec',              -> spawnMocha path: 'spec'
 
-task 'spec:features',     -> spawnMocha path: 'spec/features', timeout: 5000
+task 'spec:features',     -> spawnMocha path: 'spec/features', timeout: 8000
 
 task 'spec:server',       -> spawnMocha path: 'spec/server'
 
@@ -26,7 +26,7 @@ task 'spec:models',       -> spawnMocha path: 'spec/server/models'
 
 task 'spec:services',     -> spawnMocha path: 'spec/server/services'
 
-task 'spec:requests',     -> spawnMocha path: 'spec/server/requests'
+task 'spec:requests',     -> spawnMocha path: 'spec/server/requests', timeout: 8000
 
 task 'spec:watch', -> spawnMocha path: 'spec', format: 'min', watch: true
 

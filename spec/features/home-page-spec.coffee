@@ -8,8 +8,9 @@ httpServer.listen (app.get 'port'), ->
 phantom = require 'phantom'
 
 describe 'client', ->
-  @page = null
-  @browser = null
+  @timeout = -> 8000
+  page = null
+  headlessBrowser = null
 
   before (done) =>
     phantom.create (ph) =>

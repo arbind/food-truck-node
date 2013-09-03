@@ -4,6 +4,8 @@ require (process.cwd() + '/config/application')
 # see https://github.com/visionmedia/superagent
 
 describe 'Requests', ->
+  @timeout = -> 4000
+
   before (done) ->
     done()
 

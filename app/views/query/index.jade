@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  header#location
+    h1
+      span.city= '??'
+      span  Food-Trucks
+      span .me
+      span.right
+        if user
+          span.user= user.profile.username
+          a(href='/logout') logout
+        else
+          a(href='/oauth/twitter') sign in
+  #query-bar
+    .location
+      input(name='place', value='houston, tx')
+
+  section.crafts
+    each craft in craftResults.crafts
+      include ../craft/craft

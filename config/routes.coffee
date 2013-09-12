@@ -13,14 +13,14 @@ sudoProtected = (request, response, next)->
   response.redirect('/oauth/sudo')
 
 # user logout
-app.get '/logout', 
+app.get '/logout',
   controllers.oauth.logout
 
 # twitter oauth login
 app.get '/oauth/twitter',
   passport.authenticate 'twitter'
 
-app.get '/oauth/twitter/callback', 
+app.get '/oauth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/logout' }),
   controllers.oauth.twitter.callback
 
@@ -28,7 +28,7 @@ app.get '/oauth/twitter/callback',
 app.get '/oauth/sudo',
   passport.authenticate 'sudo'
 
-app.get '/oauth/sudo/callback', 
+app.get '/oauth/sudo/callback',
   passport.authenticate('sudo', { failureRedirect: '/logout' }),
   controllers.oauth.sudo.callback
 
@@ -43,7 +43,7 @@ app.get '/sudo',
 
 # public pages
 app.get  '/',
-  controllers.home.index
+  controllers.query.index
 
 app.get '/:location',
-  controllers.home.index
+  controllers.query.index

@@ -1,6 +1,6 @@
 .header
   .id
-    img.logo(src=craft.profile_image_url)
+    img.logo(src=craft.avatar)
     .name-and-activity
       h2.name.ellipsis= craft.name
       if craft.last_tweeted_at
@@ -10,7 +10,7 @@
     if craft.yelp_craft
       .yelp
         .logo
-          a.logo.yelp_logo_50x25(href=craft.yelp_craft.href, target= '_blank')
+          a.logo.yelp_logo_50x25(href=craft.yelpHref, target= '_blank')
         .rating-reviews
           .rating
             img.star.rating(src=craft.yelp_craft.rating_img_url_large)

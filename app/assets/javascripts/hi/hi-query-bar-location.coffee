@@ -20,11 +20,11 @@ class window.FoodTruck.Code.HiQueryBarLocation extends Backbone.View
   stopEditing: ()=>
     @$input.removeClass 'editing'
     if @contentIsValid()
-      @model.set 'nickname', @$input.val()
+      @model.set 'place', @$input.val()
     else
-      @$input.val(@model.get 'nickname')
-    window.location.search = "?location=#{@model.get('nickname')}"
-    # @model.fetch data: location: @model.get('nickname')
+      @$input.val(@model.get 'place')
+    window.location.search = "?place=#{@model.get('place')}"
+    # @model.fetch data: place: @model.get('place')
 
   hiStartEditing: (event)=>
     @startEditing()

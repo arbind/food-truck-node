@@ -15,7 +15,7 @@ class CraftService
 
     lookupGeoCoordinates place, (err, {lat, lng})->
       geoCoordinates = [ lng, lat ]
-    
+
       radius ?= 100 # in miles
       radius = 100 if radius < 0
       q =
@@ -27,21 +27,16 @@ class CraftService
         page ?= 1; page = 1 if page < 2
         limit ?= 20; limit = 100 if limit > 100
         offset = (page-1) * limit
-
         cursor.limit(limit).skip(offset).sort([['rank', 'desc']]).toArray (err, crafts)->
           count = crafts?.length
-          if crafts
-            twitter_atts = ['name', 'description', 'profile_image_url', 'profile_background_color','profile_background_image_url','profile_background_tile']
-            for craft in crafts
-              for att in twitter_atts
-                craft[att] = craft.twitter_craft?[att]
-          duration = 0
+          # adapt crafts
+          duration = -1
+          query = { page, limit, query, lat, lng, place }
           results =
             status: err ? 'ok'
-            stats: { total, count, duration }
-            query: { page, limit, query, lat, lng, place }
+            meta: { total, count, duration, query }
             crafts: crafts
-          callback err, crafts
+          callback err, results
 
 module.exports = CraftService
 
@@ -49,9 +44,9 @@ module.exports = CraftService
 Calculating the radius for $nearSphear:
 http://stackoverflow.com/questions/7837731/units-to-use-for-maxdistance-and-mongodb
 ---
-$near assumes an idealized model of a flat earth, 
-meaning that an arcdegree of latitude (y) and longitude (x) 
-represent the same distance everywhere. 
+$near assumes an idealized model of a flat earth,
+meaning that an arcdegree of latitude (y) and longitude (x)
+represent the same distance everywhere.
 So you have to convert the radius by 111(in km) or 69(in miles) to get the results.
 
 But $nearSphere you need to convert the radius by (6371 km or 3959 miles) to get it work...

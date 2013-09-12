@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   header#location
-    h1 
+    h1
       span.city= location_hash.nickname
       span  Food-Trucks
       span .me
@@ -11,7 +11,7 @@ block content
           span.user= user.profile.username
           a(href='/logout') logout
         else
-          a(href='/oauth/twitter') sign in 
+          a(href='/oauth/twitter') sign in
   #query-bar
     .location
       input(name=location, value=location_hash.nickname)

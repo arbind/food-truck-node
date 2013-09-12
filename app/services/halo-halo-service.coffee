@@ -2,7 +2,7 @@ async = require 'async'
 YelpCraftService = require 'web-craft-yelp-service'
 
 yelpOAuth =
-  wsid: process.env.YELP_WSID
+  wsid: process.env.YELP_WS_ID
   consumer_key: process.env.YELP_CONSUMER_KEY
   consumer_secret: process.env.YELP_CONSUMER_SECRET
   token: process.env.YELP_TOKEN
@@ -16,7 +16,7 @@ cacheConfig =
   bizTTL: 48*60*60     # 5hrs = 5*60s*60m
   sessionTTL: 1*60*60  # 1hr  = 1*60s*60m
 
-adaptBiz = (biz)-> 
+adaptBiz = (biz)->
   return biz unless biz?
   web_craft_id: biz.id # do this automatically in the service
   name: biz.name
@@ -38,11 +38,11 @@ yelpCraftService = YelpCraftService.configure yelpOAuth, serviceSettings, (err, 
 
 class HaloHaloService
   @localSearch: (mumbo_jumbo, searchCallback)->
-    crafts = CraftService.localSearch mumbo_jumbo, (err, crafts)->
+    CraftService.localSearch mumbo_jumbo, (err, craftsResults)->
       if err? then callback err; return
 
       fetchChildWebCrafts = (craft, webCraftCallback)->
-        childWebCrafts = 
+        childWebCrafts =
           fetchYelpCraft: (yelpCallback)->
             return yelpCallback(null, null) unless craft.yelp_craft?
             yelpCraftService.fetch craft.yelp_craft.web_craft_id, mumbo_jumbo.sessionId, yelpCallback
@@ -58,6 +58,6 @@ class HaloHaloService
           craft.twitter_craft = webCrafts.fetchTwitterCraft
           webCraftCallback(err, craft)
 
-      async.map crafts, fetchChildWebCrafts, searchCallback
+      async.map craftsResults.crafts, fetchChildWebCrafts, searchCallback
 
 module.exports = HaloHaloService

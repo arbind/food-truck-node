@@ -2,26 +2,27 @@
 , "author": "Arbind Thakur"
 , "description": "Find food trucks that you like"
 , "version": "0.0.1"
-, "repository": 
+, "repository":
   { "type": "git"
   , "url": "git@github.com:arbind/food-truck.git"
   }
-, "keywords": 
+, "keywords":
   [ "food truck"
   , "food"
   ]
 , "private": true
-, "scripts": 
+, "scripts":
   { "start": "node index"
   , "test":  "cake spec"
   }
-, "dependencies": 
+, "dependencies":
   { "coffee-script": "*"
   , "express": "3.x"
   , "express-expose": "*"
   , "connect-assets": "*"
   , "cookie-sessions": "*"
   , "socket.io": "*"
+  , "underscore": "*"
   , "nib": "*"
   , "stylus": "*"
   , "jade": "*"
@@ -47,5 +48,5 @@
 , "engines":
   { "node": "0.8.x"
   , "npm": "1.1.x"
-  }  
+  }
 }

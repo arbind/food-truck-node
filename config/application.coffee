@@ -8,6 +8,7 @@ console.log "#{appName} running in  #{node_env} environment"
 path          = (require 'path')
 express       = (require 'express')
 expose        = (require 'express-expose')
+jade_browser  = (require 'jade-browser')
 connectAssets = (require 'connect-assets')
 
 passport      = (require 'passport')
@@ -28,6 +29,17 @@ app.use (request, response, next)->  # redirect to www if nake domain is request
     response.redirect wwwURL
   else
     next()
+
+# make some jade templates available on the browser
+# set JADE_BROWSER_NO_CACHE=false in production
+# better yet precompile these browser-side jade templates for pruduction deploys!
+jadeTemplateDir = "app/views"
+jadeTemplateJSURL = "/javascripts/jade/template.js"
+jadeBrowserOptions = { root: jadeTemplateDir, noCache: true }
+
+if  process.env.JADE_BROWSER_NO_CACHE?.toString().toLowerCase() in ['f', 'false', '0']
+  jadeBrowserOptions.noCache =  false
+app.use(jade_browser(jadeTemplateJSURL, ["craft/**"], jadeBrowserOptions))
 
 rootDir = (path.normalize __dirname + '/..')
 

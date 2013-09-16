@@ -1,5 +1,6 @@
-.craft(style="background-color:##{craft.bgColor}; background-image: url(#{craft.bgImage}); background-repeat: #{craft.bgRepeat};")
-  .canvas
+.craft(id=craft.elId, style="background-color:##{craft.bgColor}; background-image: url(#{craft.bgImage}); background-repeat: #{craft.bgRepeat};")
+    div.button= craft.id
+    .canvas
     .profile.card
       include header
     .info

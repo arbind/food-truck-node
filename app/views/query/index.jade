@@ -16,6 +16,8 @@ block content
     .location
       input(name='place', value='houston, tx')
 
-  section.crafts
-    each craft in craftResults.crafts
+  section.craft-list
+    each craft in craftResults.crafts.splice(0,10)
       include ../craft/craft
+    #craft-list-scroll
+

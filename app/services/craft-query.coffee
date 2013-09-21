@@ -1,6 +1,6 @@
 class CraftQuery
   @db: ->
-    dbURL = process.env.CRAFT_SERVICE_MONGO_URL || "localhost:27017/craft_service_development"
+    dbURL = process.env.CRAFT_SERVICE_MONGO_URL || global.mongoURL || "localhost:27017/craft_service_development"
     @mongoDB ?= (require 'mongoskin').db dbURL, {safe:true}
 
   @dbCrafts: ->

@@ -5,11 +5,12 @@ html
 
     script!= javascript
 
+    link(href='http://fonts.googleapis.com/css?family=Nunito:400,700', rel='stylesheet', type='text/css')
     !=css('application')
 
     script(type='text/javascript', src='/socket.io/socket.io.js')
     script(type='text/javascript', src='/javascripts/jade/template.js')
     !=js('application')
 
-    body
+  body
     block content

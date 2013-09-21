@@ -41,6 +41,11 @@ app.get '/sudo',
 # +++ favorites
 # +++ notification preferences
 
+
+# Style Kit
+app.get  '/style',
+  controllers.style.index
+
 # public pages
 app.get  '/',
   controllers.query.index

@@ -1,7 +1,41 @@
-.city
-  color blue
-  &:hover
-    color red
-  &.editing
-    color green
-    text-align right
+$headerHeight = 10.0rem
+
+header // invisible header, read by spyder
+  height $headerHeight
+  h1
+    color $white
+
+#page-header
+  height $headerHeight
+  position relative
+  color $white
+  position fixed
+  top 0
+  right 0
+  left 0
+  z-index 88888
+  background-color $black
+  opacity 0.96
+  outline 2px solid black
+  .h1
+    display inline
+    margin 2.05rem 1rem 0 2rem
+    input.place
+      margin-left -0.3rem
+      padding 0.1rem 0.4rem
+      color $white
+      border 1px dotted $white
+      background-color $black
+      &:focus
+        background-color $white
+        color $black
+  .user
+    float: right
+    margin 1.5rem
+    a.sign-in
+        color $green
+        text-decoration none
+        font-size 2.0rem
+        &:hover
+          color $white
+

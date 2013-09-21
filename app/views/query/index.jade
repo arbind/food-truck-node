@@ -1,22 +1,21 @@
 extends ../layout
 
 block content
-  header#location
-    h1
-      span.city= '??'
-      span  Food-Trucks
-      span .me
-      span.right
-        if user
-          span.user= user.profile.username
-          a(href='/logout') logout
-        else
-          a(href='/oauth/twitter') sign in
-  #query-bar
-    .location
-      input(name='place', value='houston, tx')
+  #page-header
+    .h1
+      =  "Food Trucks in "
+      input.h1.place(name='place', value='houston, tx', placeholder='place to search')
+    .user
+      if user
+        .username= user.profile.username
+        .avatar
+        a(href='/logout') logout
+      else
+        a.sign-in(href='/oauth/twitter') sign in
 
   section.craft-list
+    header
+      h1= "Food Trucks in houston, tx"
     each craft in craftResults.crafts.splice(0,10)
       include ../craft/craft
     #craft-list-scroll

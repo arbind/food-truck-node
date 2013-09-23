@@ -2,20 +2,24 @@ params = (request)->
   _.extend (_.extend {}, request.query), request.params
 
 adapt = (craftResults)->
+  return craftResults.crafts = [] unless craftResults
   adaptedCrafts = (new CraftAdapter craft for craft in craftResults.crafts)
   craftResults.crafts = adaptedCrafts
 
 findLocalCrafts = (context, callback)->
   craftQuery = new CraftQuery context
   craftQuery.findLocalCrafts (err, craftResults)->
-    adapt craftResults
-    callback null, craftResults
+    return callback err, [] if err?
+    callback null, (adapt craftResults)
 
 renderSearchResults = (format, request, response, userQuery)->
   user    = request.user
   device  = request.device
   context = { user, device, userQuery }
   findLocalCrafts context, (err, craftResults)->
+    if err?
+      console.log "!! ERROR: #{err}"
+      craftResults = { crafts: [] } unless craftResults?
     clientData = { user, craftResults }
     if 'json' is format
       response.render clientData.toJSON()

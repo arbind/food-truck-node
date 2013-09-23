@@ -1,6 +1,6 @@
 # configure an express app: code structure and environment (test, development, production)
 
-global.appName = 'FoodTruck' # appName follows variable naming conventions (no spaces, etc) 
+global.appName = 'FoodTruck' # appName follows variable naming conventions (no spaces, etc)
 
 global.node_env = process.env.NODE_ENV || global.localEnvironment || 'test'
 console.log "#{appName} running in  #{node_env} environment"
@@ -52,17 +52,17 @@ js.root = 'javascripts'
 passport.serializeUser (user, done)-> done null, user._id
 passport.deserializeUser (id, done)-> UserService.findById id, done
 
-twitterConsumer = 
+twitterConsumer =
   consumerKey: process.env.TWITTER_CONSUMER_KEY
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET
   callbackURL: process.env.TWITTER_CALLBACK_URL || "http://127.0.0.1:3000/auth/twitter/callback"
 
-twitterSudoConsumer = 
+twitterSudoConsumer =
   consumerKey: process.env.TWITTER_CONSUMER_KEY
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET
   callbackURL: process.env.TWITTER_SUDO_CALLBACK_URL || "http://127.0.0.1:3000/auth/sudo/callback"
 
-# twitterStreamerConsumer = 
+# twitterStreamerConsumer =
 #   consumerKey: process.env.TWITTER_CONSUMER_KEY
 #   consumerSecret: process.env.TWITTER_CONSUMER_SECRET
 #   callbackURL: process.env.TWITTER_STREAMER_CALLBACK_URL || "http://127.0.0.1:3000/auth/streamer/callback"
@@ -164,6 +164,8 @@ global.requireModuleInFile = (path, filename, config={})->
       require filePath
   catch exception
     console.log ""
+    console.log exception.message
+    console.log exception
     console.log "!! could not load #{filename} from #{path}"
     throw exception
 
@@ -201,7 +203,7 @@ if redisURL
   redis.on 'connect', =>
     redis.send_anyways = true
     console.log "redis: connection established"
-    redis.select redisDBNumber, (err, val) => 
+    redis.select redisDBNumber, (err, val) =>
       redis.send_anyways = false
       redis.selectedDB = redisDBNumber
       console.log "redis: selected DB ##{redisDBNumber} for #{env}"

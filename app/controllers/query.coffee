@@ -9,7 +9,7 @@ adapt = (craftResults)->
 findLocalCrafts = (context, callback)->
   craftQuery = new CraftQuery context
   craftQuery.findLocalCrafts (err, craftResults)->
-    return callback err, [] if err?
+    return callback err, null if err?
     callback null, (adapt craftResults)
 
 renderSearchResults = (format, request, response, userQuery)->
@@ -19,7 +19,7 @@ renderSearchResults = (format, request, response, userQuery)->
   findLocalCrafts context, (err, craftResults)->
     if err?
       console.log "!! ERROR: #{err}"
-      craftResults = { crafts: [] } unless craftResults?
+      craftResults = crafts: []
     clientData = { user, craftResults }
     if 'json' is format
       response.render clientData.toJSON()

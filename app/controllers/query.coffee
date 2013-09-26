@@ -1,10 +1,29 @@
+action = exports
+
+action.index = (request, response) ->
+  userQuery = params request
+  userQuery = _.omit userQuery, ['page','limit'] # no scrolling allowed on index page
+  executeQuery request, response, userQuery
+
+action.scroll = (request, response) ->
+  userQuery = params requests
+  executeQuery request, response, userQuery, 'JSON'
+
 params = (request)->
   _.extend (_.extend {}, request.query), request.params
 
+renderQueryResultsInHTML = (response, clientData)->
+  response.expose clientData, 'ui.data'
+  response.render 'query/index', clientData
+
+renderQueryResultsInJSON = (response, clientData)->
+  response.render clientData.toJSON()
+
 adapt = (craftResults)->
-  return craftResults.crafts = [] unless craftResults
+  return { crafts: [] } unless craftResults?.crafts?
   adaptedCrafts = (new CraftAdapter craft for craft in craftResults.crafts)
   craftResults.crafts = adaptedCrafts
+  craftResults
 
 findLocalCrafts = (context, callback)->
   craftQuery = new CraftQuery context
@@ -12,32 +31,20 @@ findLocalCrafts = (context, callback)->
     return callback err, null if err?
     callback null, (adapt craftResults)
 
-renderSearchResults = (format, request, response, userQuery)->
+executeQuery = (request, response, userQuery, format='html')->
   user    = request.user
   device  = request.device
-  context = { user, device, userQuery }
-  findLocalCrafts context, (err, craftResults)->
-    if err?
-      console.log "!! ERROR: #{err}"
-      craftResults = crafts: []
-    clientData = { user, craftResults }
-    if 'json' is format
-      response.render clientData.toJSON()
-    else
-      response.expose clientData, 'ui.data'
-      response.render 'query/index', clientData
+  if Object.keys(userQuery).length is 0
+    clientData = { user, craftResults: crafts: [] }
+    renderQueryResultsInHTML response, clientData
+  else
+    context = { user, device, userQuery }
+    findLocalCrafts context, (err, craftResults)->
+      console.log "!! ERROR: #{err}" if err?
 
-renderHTMLSearchResults = (request, response, userQuery)->
-  renderSearchResults 'html', request, response, userQuery
-
-renderJSONSearchResults = (request, response, userQuery)->
-  renderSearchResults 'json', request, response, userQuery
-
-exports.index = (request, response) ->
-  userQuery = params request
-  userQuery = _.omit userQuery, ['page','limit'] # no scrolling allowed on index page
-  renderHTMLSearchResults request, response, userQuery
-
-exports.scroll = (request, response) ->
-  userQuery = params requests
-  renderJSONSearchResults request, response, userQuery
+      craftResults = crafts: [] unless craftResults?.crafts?
+      clientData = { user, craftResults }
+      if 'json' is format.toLowerCase()
+        renderQueryResultsInJSON response, clientData
+      else
+        renderQueryResultsInHTML response, clientData

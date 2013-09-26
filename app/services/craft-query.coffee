@@ -18,8 +18,8 @@ class CraftQuery
     @q = userQuery.q  || userQuery.query || userQuery.term
     if userQuery?.lat?
       @geoCoordinates =
-        lat: userQuery?.lat
-        lng: userQuery?.lng
+        lat: userQuery.lat
+        lng: userQuery.lng
     @geoCoordinates ?= @device?.geoCoordinates
     @appQuery =
       {
@@ -83,7 +83,7 @@ class CraftQuery
       locate = (ignorePlace, callback)-> callback null, @geoCoordinates # echo
     else # if @place?
       locate ?= GeocodeService.geoCoordinates
-    locate @place, callback
+    locate @place, callback # +++ indicate place was geoCoordinated and return coords
 
 module.exports = CraftQuery
 

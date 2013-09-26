@@ -1,3 +1,7 @@
+Don't forget to creat the database indexes from the craft_service with:
+heroku run rake db:mongoid:create_indexes
+
+
 # A Blank Node Application
 
 ## Use this app as a new starting point or just for reference
@@ -8,7 +12,7 @@
 - express to start listening to http requests and or a socket.io events
 - mocha-chai test framework with unit, integration and headless browser testing with [phantomjs](http://phantomjs.org/)
 - coffee-script setup for development and for testing
-- cakefile to run automated tests or to watch tests 
+- cakefile to run automated tests or to watch tests
 - stylus and nib for a light-weight css solution
 - jade for rendering views
 - an organized MVC+Services directory structure for quickly developing core functionality

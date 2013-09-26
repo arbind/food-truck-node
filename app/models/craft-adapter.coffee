@@ -1,7 +1,5 @@
 class CraftAdapter
   constructor: (craft)->
-    console.log craft
-    # @[attr] = val for attr, val of craft
     @id = "#{craft._id}"
     @elId = "craft-#{@id}"
     @el = "##{@elId}"

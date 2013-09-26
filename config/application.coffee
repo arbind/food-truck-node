@@ -170,8 +170,7 @@ global.requireModuleInFile = (path, filename, config={})->
     throw exception
 
 global.requireModulesInDirectory = (path, config={})->
-  globalize = if config.globalize? then config.globalize else true
-  (requireModuleInFile path, f, globalize) for f in fs.readdirSync(path)
+  (requireModuleInFile path, f, config) for f in fs.readdirSync(path)
 
 # load some usefull stuff
 requireModulesInDirectory rootPath.extentions, globalize: false

@@ -10,6 +10,7 @@ express       = (require 'express')
 expose        = (require 'express-expose')
 jade_browser  = (require 'jade-browser')
 connectAssets = (require 'connect-assets')
+global._      = (require 'underscore')
 
 passport      = (require 'passport')
 TwitterStrategy = require('passport-twitter').Strategy

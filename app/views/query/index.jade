@@ -1,10 +1,9 @@
 extends ../layout
 
 block content
-  #page-header
-    .h1
-      =  "Food Trucks in "
-      input.h1.place(name='place', value='houston, tx', placeholder='place to search')
+  section#page-header
+    h1#query-bar
+      include header/show
     .user
       if user
         .username= user.profile.username
@@ -13,7 +12,7 @@ block content
       else
         a.sign-in(href='/oauth/twitter') sign in
 
-  section.craft-list
+  section#craft-list
     header
       h1= "Food Trucks in houston, tx"
     each craft in craftResults.crafts.splice(0,10)

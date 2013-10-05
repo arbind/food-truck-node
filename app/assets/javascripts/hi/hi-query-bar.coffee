@@ -1,7 +1,16 @@
 #= require '../namespace'
 
-class window.FoodTruck.Code.HiQueryBarLocation extends Backbone.View
+class window.FoodTruck.Code.HiQueryBar extends Backbone.Marionette.ItemView
+  templateShow: 'query/header/show.jade'
+  templateEdit: 'query/header/edit.jade'
+  locals: -> { craftResults:ui.data.craftResults }
+
+  alert:(ev) ->
+    alert "clik #{@editMode()}"
+    @toggleEditMode()
+
   events:
+    'click': 'alert'
     'focus   input':   'hiStartEditing'
     'blur    input':   'hiStopEditing'
     'keydown input':   'hiStopEditingOnReturnKey'

@@ -25,6 +25,8 @@ Backbone.Marionette.View::editMode =  ->
 
 Backbone.Marionette.View::setEditMode = (inEditMode)->
    @options["editMode"] = !!inEditMode
+   @$el?.addClass 'editing' if @editMode()
+   @$el?.removeClass 'editing' unless @editMode()
 
 Backbone.Marionette.View::editModeOn = ->
   @setEditMode true

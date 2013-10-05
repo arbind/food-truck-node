@@ -4,9 +4,9 @@
 #= require './hi/index'
 
 class FoodTruck.Code.ClientApp
-  views: 
-    '#query-bar .location': (el)->
-      new FoodTruck.Code.HiQueryBarLocation {el}
+  views:
+    '#query-bar': (el)->
+      new FoodTruck.Code.HiQueryBar {el}
 
   constructor: ->
     FoodTruck.models.location = new Backbone.Model window.ui.data?.location_hash

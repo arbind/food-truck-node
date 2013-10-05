@@ -1,1 +1,1 @@
-#= require './hi-query-bar-location'
+#= require './hi-query-bar'

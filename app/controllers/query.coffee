@@ -35,14 +35,16 @@ executeQuery = (request, response, userQuery, format='html')->
   user    = request.user
   device  = request.device
   if Object.keys(userQuery).length is 0
-    clientData = { user, craftResults: {crafts: [], place: 'yo' }}
+    location = {}
+    craftResults = metadata: {}, crafts: []
+    clientData = { user, location, craftResults }
     renderQueryResultsInHTML response, clientData
   else
     context = { user, device, userQuery }
     findLocalCrafts context, (err, craftResults)->
       console.log "!! ERROR: #{err}" if err?
-
-      clientData = { user, craftResults }
+      location = { place: craftResults.metadata.appQuery.place }
+      clientData = { user, location, craftResults }
       if 'json' is format.toLowerCase()
         renderQueryResultsInJSON response, clientData
       else

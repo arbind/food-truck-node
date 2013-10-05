@@ -40,7 +40,7 @@ jadeBrowserOptions = { root: jadeTemplateDir, noCache: true }
 
 if  process.env.JADE_BROWSER_NO_CACHE?.toString().toLowerCase() in ['f', 'false', '0']
   jadeBrowserOptions.noCache =  false
-app.use(jade_browser(jadeTemplateJSURL, ["craft/**", "query/**"], jadeBrowserOptions))
+app.use(jade_browser(jadeTemplateJSURL, ["craft/**", "query/header/**"], jadeBrowserOptions))
 
 rootDir = (path.normalize __dirname + '/..')
 

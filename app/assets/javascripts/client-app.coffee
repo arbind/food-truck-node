@@ -9,7 +9,7 @@ class FoodTruck.Code.ClientApp
       new FoodTruck.Code.HiQueryBar {el}
 
   constructor: ->
-    FoodTruck.models.location = new Backbone.Model window.ui.data?.location_hash
+    FoodTruck.models.location = new Backbone.Model window.ui.data?.location
     # @connectSocket()
     @bindViews()
 

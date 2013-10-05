@@ -3,37 +3,43 @@
 class window.FoodTruck.Code.HiQueryBar extends Backbone.Marionette.ItemView
   templateShow: 'query/header/show.jade'
   templateEdit: 'query/header/edit.jade'
-  locals: -> { craftResults:ui.data.craftResults }
-
-  alert:(ev) ->
-    alert "clik #{@editMode()}"
-    @toggleEditMode()
+  locals: -> { location : @model?.attributes }
 
   events:
-    'click': 'alert'
-    'focus   input':   'hiStartEditing'
+    'click': 'hiStartEditing'
     'blur    input':   'hiStopEditing'
     'keydown input':   'hiStopEditingOnReturnKey'
 
   initialize: (attributes)=>
     super attributes
     @model = FoodTruck.models.location
-    @$input = @$el.find('input')
-    console.log 'init', attributes,  @$input.val()
+    @editModeOn() unless @place()
 
-  contentIsValid: => 0 isnt @$input.val().trim().length
+  place: (val)=>
+    if val?
+      @model.set 'place', val.trim()
+    else
+      @model.get 'place'
+
+  sendUserQuery: =>
+    window.location.search = "?place=#{@place()}"
+    # @model.fetch data: place: @model.get('place')
 
   startEditing: ()=>
-    @$input.addClass 'editing'
+    @editModeOn()
+    @$input = @$el.find('input')
+    @$input.focus()
 
   stopEditing: ()=>
-    @$input.removeClass 'editing'
-    if @contentIsValid()
-      @model.set 'place', @$input.val()
+    if @userEntryChanged() and @userEntryIsValid()
+      @place @$input.val()
+      @sendUserQuery()
     else
-      @$input.val(@model.get 'place')
-    window.location.search = "?place=#{@model.get('place')}"
-    # @model.fetch data: place: @model.get('place')
+      @$input.val @place()
+      @editModeOff() if @place()
+
+  userEntryIsValid: => 0 isnt @$input.val()?.trim()?.length
+  userEntryChanged: => @place()?.trim() isnt @$input.val()?.trim()
 
   hiStartEditing: (event)=>
     @startEditing()

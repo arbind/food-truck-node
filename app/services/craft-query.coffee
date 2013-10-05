@@ -82,7 +82,7 @@ class CraftQuery
     if @geoCoordinates
       locate = (ignorePlace, callback)-> callback null, @geoCoordinates # echo
     else # if @place?
-      locate ?= GeocodeService.geoCoordinates
+      locate = GeocodeService.geoCoordinates
     locate @place, callback # +++ indicate place was geoCoordinated and return coords
 
 module.exports = CraftQuery

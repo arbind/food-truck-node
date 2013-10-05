@@ -20,7 +20,8 @@ renderQueryResultsInJSON = (response, clientData)->
   response.render clientData.toJSON()
 
 adapt = (craftResults)->
-  return { crafts: [] } unless craftResults?.crafts?
+  craftResults ?= {}
+  craftResults.crafts ?= []
   adaptedCrafts = (new CraftAdapter craft for craft in craftResults.crafts)
   craftResults.crafts = adaptedCrafts
   craftResults
@@ -28,21 +29,19 @@ adapt = (craftResults)->
 findLocalCrafts = (context, callback)->
   craftQuery = new CraftQuery context
   craftQuery.findLocalCrafts (err, craftResults)->
-    return callback err, null if err?
-    callback null, (adapt craftResults)
+    callback err, (adapt craftResults)
 
 executeQuery = (request, response, userQuery, format='html')->
   user    = request.user
   device  = request.device
   if Object.keys(userQuery).length is 0
-    clientData = { user, craftResults: crafts: [] }
+    clientData = { user, craftResults: {crafts: [], place: 'yo' }}
     renderQueryResultsInHTML response, clientData
   else
     context = { user, device, userQuery }
     findLocalCrafts context, (err, craftResults)->
       console.log "!! ERROR: #{err}" if err?
 
-      craftResults = crafts: [] unless craftResults?.crafts?
       clientData = { user, craftResults }
       if 'json' is format.toLowerCase()
         renderQueryResultsInJSON response, clientData
